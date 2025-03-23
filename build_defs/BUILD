@@ -12,6 +12,12 @@ protoc_plugins(
     type = "grpc_language",
 )
 
+protoc_plugins(
+    name = "connect_languages",
+    build_defs = CONFIG.PROTO.DEFINITIONS,
+    type = "connect_language",
+)
+
 filegroup(
     name = "proto",
     srcs = ["proto.build_defs"],
