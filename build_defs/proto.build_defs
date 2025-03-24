@@ -111,7 +111,7 @@ def grpc_library(name:str, srcs:list, deps:list=None, visibility:list=None, lang
     Args:
       name (str): Name of the rule
       srcs (list): Input .proto files.
-      deps (list): Dependencies (other grpc_library or proto_library rules)
+      deps (list): Dependencies (other proto language library rules, e.g. grpc_library or proto_library)
       visibility (list): Visibility specification for the rule.
       languages (list | dict): List of languages to generate rules for, chosen from the set {cc, py, go, java}.
                                Alternatively, a dict mapping the language name to a definition of how to build it
@@ -141,7 +141,7 @@ def connect_library(name:str, srcs:list, deps:list=None, visibility:list=None, l
     Args:
       name (str): Name of the rule
       srcs (list): Input .proto files.
-      deps (list): Dependencies (other grpc_library or proto_library rules)
+      deps (list): Dependencies (other proto language library rules, e.g. grpc_library or proto_library)
       visibility (list): Visibility specification for the rule.
       languages (list | dict): List of languages to generate rules for, chosen from the set {cc, py, go, java}.
                                Alternatively, a dict mapping the language name to a definition of how to build it
