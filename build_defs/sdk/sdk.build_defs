@@ -44,7 +44,7 @@ def _get_languages_prebuild(label_prefix, includes):
     Generates a pre_build function that updates the command of the target to output a .build_defs file. This file then
     exposes a function based on the name of the rule, e.g. `proto_languages()`, which return the proto languages map.
 
-    This can then be subincluded by your custom proto build definition type. For an exmaple, there are built in
+    This can then be subincluded by your custom proto build definition type. For an example, there are built in
     definitions, `proto_library()`, and `grpc_library()` that subcinclude `//build_def:proto_langauges` and
     `//build_def:grpc_langauges`
     """

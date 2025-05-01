@@ -15,9 +15,11 @@ should be the return value of proto_language.
 subinclude(
     "///proto//build_defs:proto_languages",
     "///proto//build_defs:grpc_languages",
+    "///proto//build_defs:connect_languages",
 )
 
 _DEFAULT_GRPC_LABELS = ['grpc']
+_DEFAULT_CONNECT_LABELS = ['connect']
 
 
 def merge_languages(lhs_dict, rhs_dict):
@@ -109,7 +111,7 @@ def grpc_library(name:str, srcs:list, deps:list=None, visibility:list=None, lang
     Args:
       name (str): Name of the rule
       srcs (list): Input .proto files.
-      deps (list): Dependencies (other grpc_library or proto_library rules)
+      deps (list): Dependencies (other proto language library rules, e.g. grpc_library or proto_library)
       visibility (list): Visibility specification for the rule.
       languages (list | dict): List of languages to generate rules for, chosen from the set {cc, py, go, java}.
                                Alternatively, a dict mapping the language name to a definition of how to build it
@@ -127,6 +129,36 @@ def grpc_library(name:str, srcs:list, deps:list=None, visibility:list=None, lang
         languages = merge_languages(languages, grpc_languages()),
         visibility = visibility,
         labels = labels + _DEFAULT_GRPC_LABELS,
+        test_only = test_only,
+        root_dir = root_dir,
+        protoc_flags = protoc_flags,
+    )
+
+def connect_library(name:str, srcs:list, deps:list=None, visibility:list=None, languages:list|dict=None,
+                    labels:list&features&tags=[], test_only:bool&testonly=False, root_dir:str='', protoc_flags:list=None):
+    """Defines a rule for a grpc library.
+
+    Args:
+      name (str): Name of the rule
+      srcs (list): Input .proto files.
+      deps (list): Dependencies (other proto language library rules, e.g. grpc_library or proto_library)
+      visibility (list): Visibility specification for the rule.
+      languages (list | dict): List of languages to generate rules for, chosen from the set {cc, py, go, java}.
+                               Alternatively, a dict mapping the language name to a definition of how to build it
+                               (see proto_language for more details of the values).
+      labels (list): List of labels to apply to this rule.
+      test_only (bool): If True, this rule can only be used by test rules.
+      root_dir (str): The directory that the protos are compiled relative to. Useful if your
+                      proto files have import statements that are not relative to the repo root.
+      protoc_flags (list): Additional flags to pass to protoc.
+    """
+    return proto_library(
+        name = name,
+        srcs = srcs,
+        deps = deps,
+        languages = merge_languages(languages, connect_languages()),
+        visibility = visibility,
+        labels = labels + _DEFAULT_CONNECT_LABELS,
         test_only = test_only,
         root_dir = root_dir,
         protoc_flags = protoc_flags,
